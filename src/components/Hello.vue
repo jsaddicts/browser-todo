@@ -9,7 +9,9 @@
       </li>
       </ul>
      <ul v-for="task in task_list" v-if="task.completed"> 
+     <li v-on:click="removeTask(task.id)">
       <del>{{task.text}}</del>
+     </li> 
     </ul>
   </div>
 </template>
@@ -38,6 +40,15 @@ export default {
       },
       clear : function(){
         this.task_desc = ""
+      },
+      removeTask : function(id){
+        console.log(this.task_list)
+        var task_list = this.task_list.filter(function(task){
+          console.log(task)
+            if(task.id != id ){
+              return task
+            }
+        })
       }
   }
 }
