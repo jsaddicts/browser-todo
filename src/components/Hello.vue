@@ -1,9 +1,15 @@
 <template>
   <div class="hello">
-    <input type="text" placeholder="Add your task" name="task_desc" v-on:change="setTask"/>
+    <input type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
     <button v-on:click="addTask(task_desc)">Add</button>
     <ul v-for="task in task_list">
-      <li> {{task.text}}</li>
+      <li v-on:click="completeTask(task)">
+        <input type="checkbox" v-model="task.completed"/>
+        {{task.text}}
+      </li>
+      </ul>
+     <ul v-for="task in task_list" v-if="task.completed"> 
+      <del>{{task.text}}</del>
     </ul>
   </div>
 </template>
@@ -13,13 +19,8 @@ export default {
   name: 'hello',
   data () {
     return {
-      task_list : [{
-        id : 0,
-        text: '',
-        completed :false
-      }],
+      task_list : [],
       task_desc :''
-
     }
   },
 
@@ -30,9 +31,13 @@ export default {
           text : text,
           completed : this.completed
         })
+        this.clear()
       },
-      setTask : function(e){
-        this.task_desc = e.target.value
+      completeTask : function(task){
+        task.completed = true 
+      },
+      clear : function(){
+        this.task_desc = ""
       }
   }
 }
