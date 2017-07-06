@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+   <h1>Browser Todo</h1>
     <hello></hello>
   </div>
 </template>
