@@ -3,12 +3,12 @@
     <input type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
     <button v-on:click="addTask(task_desc)">Add</button>
     <ul v-for="task in task_list">
-      <li v-on:click="completeTask(task)">
+      <li v-on:click="completeTask(task.id)">
         <input type="checkbox" v-model="task.completed"/>
         {{task.text}}
       </li>
-      </ul>
-     <ul v-for="task in task_list" v-if="task.completed"> 
+    </ul>
+    <ul v-for="task in task_list" v-if="task.completed"> 
      <li v-on:click="removeTask(task.id)">
       <del>{{task.text}}</del>
      </li> 
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'todo-list',
   data () {
     return {
       task_list : [],
@@ -27,6 +27,7 @@ export default {
   },
 
   methods: {
+    
       addTask : function(text){
         this.task_list.push({
           id : Date.now(),
@@ -35,14 +36,22 @@ export default {
         })
         this.clear()
       },
-      completeTask : function(task){
-        task.completed = true 
+
+      completeTask : function(id){
+
+        const index = this.task_list.findIndex(task => task.id == id);
+
+        if(index > -1) {
+          this.task_list[index].completed = true;
+        }
+
       },
+
       clear : function(){
         this.task_desc = ""
       },
+
       removeTask : function(id){
-        console.log(this.task_list)
         var task_list = this.task_list.filter(function(task){
           console.log(task)
             if(task.id != id ){
