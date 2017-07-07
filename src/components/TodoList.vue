@@ -27,6 +27,15 @@
 </template>
 
 <script>
+
+function getList () {
+  return JSON.parse(localStorage.getItem('BrowserTodoList')) || [];
+}
+
+function saveList (list) {
+  return localStorage.setItem('BrowserTodoList', JSON.stringify(list));
+}
+
 export default {
   name: 'todo-list',
   data () {
@@ -34,6 +43,18 @@ export default {
       task_list : [],
       task_desc :'',
       validationErr: ''
+    }
+  },
+
+  created: function () {
+    if(window.localStorage) {
+      this.task_list = getList();
+    }
+  },
+
+  watch: {
+    task_list: function(newList) {
+      saveList(newList);
     }
   },
 
@@ -89,6 +110,7 @@ export default {
     },
 
     onKeyup: function (e) {
+      this.setErr('');
       if(e.key == 'Enter') {
         this.addTask();
       }
