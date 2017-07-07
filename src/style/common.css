@@ -9,3 +9,7 @@
 .text-danger {
 	color: #f44336;
 }
+
+.pointer {
+	cursor: pointer;
+}

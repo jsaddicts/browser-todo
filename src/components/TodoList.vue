@@ -18,8 +18,9 @@
       </li>
     </ul>
     <ul> 
-     <li v-for="task in completedList()" v-on:click="removeTask(task.id)">
+     <li v-for="task in completedList()">
       <del>{{task.text}}</del>
+      <span class="text-danger pointer" v-on:click="removeTask(task.id)">delete</span>
      </li> 
     </ul>
   </div>
@@ -76,11 +77,7 @@ export default {
     },
 
     removeTask : function(id){
-      var task_list = this.task_list.filter(function(task){
-        if(task.id != id ){
-          return task
-        }
-      })
+      this.task_list = this.task_list.filter(task => task.id !== id)
     },
 
     completedList: function () {
