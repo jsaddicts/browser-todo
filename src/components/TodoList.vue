@@ -3,10 +3,10 @@
     <div class="twelve column">
       <div class="row">
         <div class="two-thirds column">
-          <input class="u-full-width" type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
+          <input v-on:keyup="onKeyup" class="u-full-width" type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
         </div>
         <div class="one-third column">
-          <button class="u-full-width" v-on:click="addTask(task_desc)">Add</button>
+          <button class="u-full-width" v-on:click="addTask">Add</button>
         </div>
       </div>
     </div>
@@ -36,10 +36,10 @@ export default {
 
   methods: {
 
-    addTask : function(text){
+    addTask : function(){
       this.task_list.push({
         id : Date.now(),
-        text : text,
+        text : this.task_desc,
         completed : false
       })
       this.clear()
@@ -74,6 +74,12 @@ export default {
 
     todoList: function () {
       return this.task_list.filter(task => task.completed === false);
+    },
+
+    onKeyup: function (e) {
+      if(e.key == 'Enter') {
+        this.addTask();
+      }
     }
   }
 }
