@@ -3,46 +3,83 @@
     <div class="twelve column">
       <div class="row">
         <div class="two-thirds column">
-          <input class="u-full-width" type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
+          <input v-on:keyup="onKeyup" class="u-full-width" type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
+          <span class="text-danger" v-if="validationErr">{{validationErr}}</span>
         </div>
         <div class="one-third column">
-          <button class="u-full-width" v-on:click="addTask(task_desc)">Add</button>
+          <button class="u-full-width" v-on:click="addTask">Add</button>
         </div>
       </div>
     </div>
-    <ul v-for="task in todoList()">
-      <li>
-        <input type="checkbox" v-bind:checked="task.completed" v-on:change="completeTask(task.id)"/>
+    <ul class="task-list">
+      <li v-for="task in todoList()">
+        <input class="task-list-item" type="checkbox" v-bind:checked="task.completed" v-on:change="completeTask(task.id)"/>
         {{task.text}}
       </li>
     </ul>
-    <ul v-for="task in completedList()"> 
-     <li v-on:click="removeTask(task.id)">
+    <ul> 
+     <li v-for="task in completedList()">
       <del>{{task.text}}</del>
+      <span class="text-danger pointer" v-on:click="removeTask(task.id)">delete</span>
      </li> 
     </ul>
   </div>
 </template>
 
 <script>
+
+function getList () {
+  return JSON.parse(localStorage.getItem('BrowserTodoList')) || [];
+}
+
+function saveList (list) {
+  return localStorage.setItem('BrowserTodoList', JSON.stringify(list));
+}
+
 export default {
   name: 'todo-list',
   data () {
     return {
       task_list : [],
-      task_desc :''
+      task_desc :'',
+      validationErr: ''
+    }
+  },
+
+  created: function () {
+    if(window.localStorage) {
+      this.task_list = getList();
+    }
+  },
+
+  watch: {
+    task_list: function(newList) {
+      saveList(newList);
     }
   },
 
   methods: {
 
-    addTask : function(text){
+    setErr: function (err) {
+      this.validationErr = err;
+    },
+
+    addTask : function(){
+      this.setErr('');
+
+      if(!this.task_desc) {
+        this.setErr('Please write a task');
+        return;
+      }
+
       this.task_list.push({
         id : Date.now(),
-        text : text,
+        text : this.task_desc,
         completed : false
       })
-      this.clear()
+
+      this.clear();  // clear the input box
+
     },
 
     completeTask : function(id){
@@ -57,15 +94,11 @@ export default {
     },
 
     clear : function(){
-      this.task_desc = ""
+      this.task_desc = "";
     },
 
     removeTask : function(id){
-      var task_list = this.task_list.filter(function(task){
-        if(task.id != id ){
-          return task
-        }
-      })
+      this.task_list = this.task_list.filter(task => task.id !== id)
     },
 
     completedList: function () {
@@ -74,6 +107,13 @@ export default {
 
     todoList: function () {
       return this.task_list.filter(task => task.completed === false);
+    },
+
+    onKeyup: function (e) {
+      this.setErr('');
+      if(e.key == 'Enter') {
+        this.addTask();
+      }
     }
   }
 }
@@ -88,11 +128,6 @@ h1, h2 {
 ul {
   list-style-type: none;
   padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 
 a {
