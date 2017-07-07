@@ -1,7 +1,15 @@
 <template>
-  <div class="hello">
-    <input type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
-    <button v-on:click="addTask(task_desc)">Add</button>
+  <div class="row todo-list">
+    <div class="twelve column">
+      <div class="row">
+        <div class="two-thirds column">
+          <input class="u-full-width" type="text" placeholder="Add your task" name="task_desc" v-model="task_desc"/>
+        </div>
+        <div class="one-third column">
+          <button class="u-full-width" v-on:click="addTask(task_desc)">Add</button>
+        </div>
+      </div>
+    </div>
     <ul v-for="task in task_list">
       <li v-on:click="completeTask(task.id)">
         <input type="checkbox" v-model="task.completed"/>
@@ -27,7 +35,7 @@ export default {
   },
 
   methods: {
-    
+
       addTask : function(text){
         this.task_list.push({
           id : Date.now(),
