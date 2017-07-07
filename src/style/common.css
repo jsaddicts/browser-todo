@@ -5,3 +5,11 @@
 .margin-top {
 	margin-top: 50px;
 }
+
+.text-danger {
+	color: #f44336;
+}
+
+.pointer {
+	cursor: pointer;
+}
