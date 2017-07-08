@@ -4,19 +4,20 @@
       <input-group 
         :defaultValue="task_desc"
         label="Add"
-        v-on:onConfirm="addTask"></input-group>
+        v-on:confirm="addTask"></input-group>
     </div>
     <ul class="task-list">
       <li v-for="task in todoList()">
         <list-item
           :todo="task"
           v-on:save="editTask"
+          v-on:remove="removeTask"
           v-on:complete="completeTask"></list-item>
       </li>
     </ul>
     <ul> 
      <li v-for="task in completedList()">
-      <del>{{task.text}}</del>
+      <del class="text">{{task.text}}</del>
       <span class="text-danger pointer" v-on:click="removeTask(task.id)">delete</span>
      </li> 
     </ul>
