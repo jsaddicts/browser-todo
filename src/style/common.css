@@ -10,6 +10,14 @@
 	color: #f44336;
 }
 
+.text-success {
+	color: #4CAF50;
+}
+
+.text-primary {
+	color: #2196F3;
+}
+
 .pointer {
 	cursor: pointer;
 }
