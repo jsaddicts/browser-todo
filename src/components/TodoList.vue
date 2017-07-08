@@ -4,7 +4,7 @@
       <input-group 
         :defaultValue="task_desc"
         label="Add"
-        v-on:onConfirm="addTask"></input-group>
+        v-on:confirm="addTask"></input-group>
     </div>
     <ul class="task-list">
       <li v-for="task in todoList()">
