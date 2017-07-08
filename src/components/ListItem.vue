@@ -1,9 +1,14 @@
 <template>
   <div>
     <div v-if="!edit">
-      <input class="todo-list-item" type="checkbox" v-bind:checked="editabletodo.completed" v-on:change="complete(editabletodo.id)"/>
-      {{editabletodo.text}}
-      <span v-on:click="enableEdit()" class="text-primary pointer">Edit</span>
+      <div class="task-checkbox">
+      	<input class="todo-list-item" type="checkbox" v-bind:checked="editabletodo.completed" v-on:change="complete(editabletodo.id)"/>
+      </div>
+      <div class="task-text">
+      	<span>{{editabletodo.text}}</span>
+	      <span v-on:click="enableEdit()" class="text text-primary pointer">edit</span>
+	      <span v-on:click="remove(editabletodo.id)" class="text text-danger pointer">delete</span>
+      </div>
     </div>
     <div v-if="edit">
     	<input-group 
@@ -51,6 +56,9 @@ export default {
       	text: val
       })
      	this.disableEdit();
+    },
+    remove: function(id) {
+    	this.$emit('remove', id);
     },
     disableEdit: function() {
       this.edit = false;

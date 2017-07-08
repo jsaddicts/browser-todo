@@ -11,12 +11,13 @@
         <list-item
           :todo="task"
           v-on:save="editTask"
+          v-on:remove="removeTask"
           v-on:complete="completeTask"></list-item>
       </li>
     </ul>
     <ul> 
      <li v-for="task in completedList()">
-      <del>{{task.text}}</del>
+      <del class="text">{{task.text}}</del>
       <span class="text-danger pointer" v-on:click="removeTask(task.id)">delete</span>
      </li> 
     </ul>
