@@ -2,13 +2,16 @@
   <div class="row margin-top">
     <div class="twelve column">
       <input-group 
-        :value="task_desc"
+        :defaultValue="task_desc"
         label="Add"
         v-on:onConfirm="addTask"></input-group>
     </div>
     <ul class="task-list">
       <li v-for="task in todoList()">
-        <list-item :todo="task"></list-item>
+        <list-item
+          :todo="task"
+          v-on:save="editTask"
+          v-on:complete="completeTask"></list-item>
       </li>
     </ul>
     <ul> 
@@ -77,6 +80,17 @@ export default {
         return {
           ...task,
           completed: task.id === id ? true : task.completed
+        }
+      })
+
+    },
+
+    editTask : function(todo){
+
+      this.task_list = this.task_list.map(task => {
+        return {
+          ...task,
+          text: task.id === todo.id ? todo.text : task.text
         }
       })
 
