@@ -1,15 +1,22 @@
 <template>
   <div>
     <div v-if="!edit">
-      <input class="todo-list-item" type="checkbox" v-bind:checked="editabletodo.completed" v-on:change="complete(editabletodo.id)"/>
-      {{editabletodo.text}}
-      <span v-on:click="enableEdit()" class="text-primary">Edit</span>
+      <div class="task-checkbox">
+      	<input class="todo-list-item" type="checkbox" v-bind:checked="editabletodo.completed" v-on:change="complete(editabletodo.id)"/>
+      </div>
+      <div class="task-text">
+      	<span>{{editabletodo.text}}</span>
+	      <span v-on:click="enableEdit()" class="text text-primary pointer">edit</span>
+	      <span v-on:click="remove(editabletodo.id)" class="text text-danger pointer">delete</span>
+      </div>
     </div>
     <div v-if="edit">
     	<input-group 
-        :defaultValue="editabletodo.text"
         label="Save"
-        v-on:onConfirm="disableEdit"></input-group>
+        :defaultValue="editabletodo.text"
+        :showCancel="true"
+        v-on:cancel="disableEdit"
+        v-on:confirm="onConfirm"></input-group>
     </div>
   </div>
 </template>
@@ -43,12 +50,18 @@ export default {
     enableEdit: function() {
       this.edit = true;
     },
-    disableEdit: function(val) {
-      this.edit = false;
-      this.save({
+    onConfirm: function (val) {
+    	this.save({
       	...this.editabletodo,
       	text: val
       })
+     	this.disableEdit();
+    },
+    remove: function(id) {
+    	this.$emit('remove', id);
+    },
+    disableEdit: function() {
+      this.edit = false;
     }
   },
   props: ['todo']

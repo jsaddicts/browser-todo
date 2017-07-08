@@ -23,6 +23,25 @@ ul {
 	color: #2196F3;
 }
 
+.text {
+	margin-right: 5px;
+}
+
 .pointer {
 	cursor: pointer;
+}
+
+.task-text {
+	float: left;
+    width: 90%;
+}
+
+.task-checkbox {
+	float: left;
+	margin-right: 5px;
+	height: 100%
+}
+
+button {
+	padding: 0px 0px;
 }
