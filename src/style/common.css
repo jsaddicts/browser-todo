@@ -1,3 +1,8 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
 .text-center {
 	text-align: center;
 }
@@ -8,6 +13,14 @@
 
 .text-danger {
 	color: #f44336;
+}
+
+.text-success {
+	color: #4CAF50;
+}
+
+.text-primary {
+	color: #2196F3;
 }
 
 .pointer {
