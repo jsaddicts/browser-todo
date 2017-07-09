@@ -45,3 +45,8 @@ ul {
 button {
 	padding: 0px 0px;
 }
+
+li {
+	float: left;
+	width: 100%;
+}
